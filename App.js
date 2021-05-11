@@ -29,7 +29,7 @@ export default function App() {
   }, []);
 
   const calculateValues = (salt, energyKcal, fat, protein, carbohydrate, sugar, fiber) => {
-    return salt + energyKcal + fat + protein + carbohydrate + sugar + fiber;
+    return salt / energyKcal + fat + protein - carbohydrate + sugar + fiber * 5;
   }
 
   const setValues = () => {
@@ -46,18 +46,18 @@ export default function App() {
       );
       valueList.push(value);
     }
-    let sorted = valueList.sort();
+    let sorted = valueList.sort((a, b) => a - b);
     console.log('sorted ', sorted[150]);
 
     for (let item of allGroceries) {
-      if (
-        item.salt +
-        item.energyKcal +
-        item.fat +
-        item.protein +
-        item.carbohydrate +
-        item.sugar +
-        item.fiber === sorted[150]
+      if (calculateValues(
+        item.salt,
+        item.energyKcal,
+        item.fat,
+        item.protein,
+        item.carbohydrate,
+        item.sugar,
+        item.fiber) === sorted[150]
       ) {
         console.log('matches sorted[150] ', item);
       }
